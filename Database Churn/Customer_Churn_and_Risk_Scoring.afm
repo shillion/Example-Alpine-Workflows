@@ -1,0 +1,957 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Process Description="" UserName="7" Version="6.3.0.0">
+<DataSources>
+<DataSource name="miner_demo" type="Database">
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Parameter key="url" value="jdbc:postgresql://10.10.0.151:5432/miner_demo"/>
+<Parameter key="userName" value="miner_demo"/>
+<Parameter key="useSSL" value="false"/>
+<Parameter key="password" value="bWluZXJfZGVtbw=="/>
+<Parameter key="system" value="Greenplum"/>
+</DataSource>
+</DataSources>
+<Operator X="263" Y="154" name="Replace Null Values in TotalCharges" type="com.alpine.miner.gef.runoperator.field.ReplaceNullOperator" uuid="1461882152594">
+<Note/>
+<Parameter key="outputType" value="TABLE"/>
+<Parameter key="outputSchema" value="@default_schema"/>
+<Parameter key="outputTable" value="alp@user_id_@flow_id_repl_0"/>
+<StorageParameters appendOnly="false" columnarStorage="false" compression="false" compressionLevel="1" isDistributedRandomly="true"/>
+<Parameter key="dropIfExist" value="Yes"/>
+<NullReplacementModel>
+<NullReplacementItem columnName="TotalCharges" nullType="value" nullValue="0"/>
+</NullReplacementModel>
+<InPutFieldList id="1462372149878">
+<Parameter key="schema" value="demo"/>
+<Parameter key="table" value="telco_cust_churn_2"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="gender" type="CHARACTER VARYING"/>
+<Field name="SeniorCitizen" type="INTEGER"/>
+<Field name="Partner" type="CHARACTER VARYING"/>
+<Field name="Dependents" type="CHARACTER VARYING"/>
+<Field name="tenure" type="INTEGER"/>
+<Field name="PhoneService" type="CHARACTER VARYING"/>
+<Field name="MultipleLines" type="CHARACTER VARYING"/>
+<Field name="InternetService" type="CHARACTER VARYING"/>
+<Field name="OnlineSecurity" type="CHARACTER VARYING"/>
+<Field name="OnlineBackup" type="CHARACTER VARYING"/>
+<Field name="DeviceProtection" type="CHARACTER VARYING"/>
+<Field name="TechSupport" type="CHARACTER VARYING"/>
+<Field name="StreamingTV" type="CHARACTER VARYING"/>
+<Field name="StreamingMovies" type="CHARACTER VARYING"/>
+<Field name="Contract" type="CHARACTER VARYING"/>
+<Field name="PaperlessBilling" type="CHARACTER VARYING"/>
+<Field name="PaymentMethod" type="CHARACTER VARYING"/>
+<Field name="MonthlyCharges" type="NUMERIC"/>
+<Field name="TotalCharges" type="NUMERIC"/>
+<Field name="Churn" type="CHARACTER VARYING"/>
+<Field name="First_Name" type="CHARACTER VARYING"/>
+<Field name="Last_Name" type="CHARACTER VARYING"/>
+<Field name="Cust_Phone" type="CHARACTER VARYING"/>
+<Field name="Email" type="CHARACTER VARYING"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="756" Y="151" name="80%/20%" type="com.alpine.miner.gef.runoperator.sampling.RandomSamplingOperator" uuid="1461882194916">
+<Note/>
+<Parameter key="sampleCount" value="2"/>
+<Parameter key="sampleSizeType" value="Percentage"/>
+<Parameter key="randomSeed" value=""/>
+<Parameter key="consistent" value="false"/>
+<Parameter key="replacement" value="false"/>
+<Parameter key="disjoint" value="true"/>
+<Parameter key="outputSchema" value="@default_schema"/>
+<Parameter key="outputTable" value="alp@user_id_@flow_id_rsamp_0"/>
+<StorageParameters appendOnly="false" columnarStorage="false" compression="false" compressionLevel="1" isDistributedRandomly="true"/>
+<Parameter key="dropIfExist" value="Yes"/>
+<SampleSizeModel>
+<sampleIDs sampleID="1"/>
+<sampleIDs sampleID="2"/>
+<sampleSizes sampleSize="80"/>
+<sampleSizes sampleSize="20"/>
+</SampleSizeModel>
+<InPutFieldList id="1461882965479">
+<Parameter key="schema" value="public"/>
+<Parameter key="table" value="telco_churn_name_tp"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="gender" type="CHARACTER VARYING"/>
+<Field name="Dependents" type="CHARACTER VARYING"/>
+<Field name="tenure" type="INTEGER"/>
+<Field name="InternetService" type="CHARACTER VARYING"/>
+<Field name="PaymentMethod" type="CHARACTER VARYING"/>
+<Field name="MonthlyCharges" type="NUMERIC"/>
+<Field name="TotalCharges" type="NUMERIC"/>
+<Field name="First_Name" type="CHARACTER VARYING"/>
+<Field name="Last_Name" type="CHARACTER VARYING"/>
+<Field name="Cust_Phone" type="CHARACTER VARYING"/>
+<Field name="Email" type="CHARACTER VARYING"/>
+<Field name="Dependents_bool" type="INTEGER"/>
+<Field name="PhoneService_bool" type="INTEGER"/>
+<Field name="MultipleLines_bool" type="INTEGER"/>
+<Field name="OnlineSecurity_bool" type="INTEGER"/>
+<Field name="OnlineBackup_bool" type="INTEGER"/>
+<Field name="DeviceProtection_bool" type="INTEGER"/>
+<Field name="TechSupport_bool" type="INTEGER"/>
+<Field name="StreamingTV_bool" type="INTEGER"/>
+<Field name="StreamingMovies_bool" type="INTEGER"/>
+<Field name="PaperlessBilling_bool" type="INTEGER"/>
+<Field name="Churn_bool" type="INTEGER"/>
+<Field name="InternetService_bool" type="INTEGER"/>
+<Field name="contract_2yr" type="INTEGER"/>
+<Field name="contract_MTM" type="INTEGER"/>
+<Field name="contract_1yr" type="INTEGER"/>
+<Field name="SeniorCitizen_Y" type="INTEGER"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="863" Y="54" name="Train - 80%" type="com.alpine.miner.gef.runoperator.sampling.SampleSelectorOperator" uuid="1461882204683">
+<Note/>
+<Parameter key="selectedTable" value="@default_schema.alp@user_id_@flow_id_rsamp_0_0"/>
+<InPutFieldList id="1461882194916">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_rsamp_0_0"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="gender" type="CHARACTER VARYING"/>
+<Field name="Dependents" type="CHARACTER VARYING"/>
+<Field name="tenure" type="INTEGER"/>
+<Field name="InternetService" type="CHARACTER VARYING"/>
+<Field name="PaymentMethod" type="CHARACTER VARYING"/>
+<Field name="MonthlyCharges" type="NUMERIC"/>
+<Field name="TotalCharges" type="NUMERIC"/>
+<Field name="First_Name" type="CHARACTER VARYING"/>
+<Field name="Last_Name" type="CHARACTER VARYING"/>
+<Field name="Cust_Phone" type="CHARACTER VARYING"/>
+<Field name="Email" type="CHARACTER VARYING"/>
+<Field name="Dependents_bool" type="INTEGER"/>
+<Field name="PhoneService_bool" type="INTEGER"/>
+<Field name="MultipleLines_bool" type="INTEGER"/>
+<Field name="OnlineSecurity_bool" type="INTEGER"/>
+<Field name="OnlineBackup_bool" type="INTEGER"/>
+<Field name="DeviceProtection_bool" type="INTEGER"/>
+<Field name="TechSupport_bool" type="INTEGER"/>
+<Field name="StreamingTV_bool" type="INTEGER"/>
+<Field name="StreamingMovies_bool" type="INTEGER"/>
+<Field name="PaperlessBilling_bool" type="INTEGER"/>
+<Field name="Churn_bool" type="INTEGER"/>
+<Field name="InternetService_bool" type="INTEGER"/>
+<Field name="contract_2yr" type="INTEGER"/>
+<Field name="contract_MTM" type="INTEGER"/>
+<Field name="contract_1yr" type="INTEGER"/>
+<Field name="SeniorCitizen_Y" type="INTEGER"/>
+</Fields>
+</InPutFieldList>
+<InPutFieldList id="1461882194916">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_rsamp_0_1"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="gender" type="CHARACTER VARYING"/>
+<Field name="Dependents" type="CHARACTER VARYING"/>
+<Field name="tenure" type="INTEGER"/>
+<Field name="InternetService" type="CHARACTER VARYING"/>
+<Field name="PaymentMethod" type="CHARACTER VARYING"/>
+<Field name="MonthlyCharges" type="NUMERIC"/>
+<Field name="TotalCharges" type="NUMERIC"/>
+<Field name="First_Name" type="CHARACTER VARYING"/>
+<Field name="Last_Name" type="CHARACTER VARYING"/>
+<Field name="Cust_Phone" type="CHARACTER VARYING"/>
+<Field name="Email" type="CHARACTER VARYING"/>
+<Field name="Dependents_bool" type="INTEGER"/>
+<Field name="PhoneService_bool" type="INTEGER"/>
+<Field name="MultipleLines_bool" type="INTEGER"/>
+<Field name="OnlineSecurity_bool" type="INTEGER"/>
+<Field name="OnlineBackup_bool" type="INTEGER"/>
+<Field name="DeviceProtection_bool" type="INTEGER"/>
+<Field name="TechSupport_bool" type="INTEGER"/>
+<Field name="StreamingTV_bool" type="INTEGER"/>
+<Field name="StreamingMovies_bool" type="INTEGER"/>
+<Field name="PaperlessBilling_bool" type="INTEGER"/>
+<Field name="Churn_bool" type="INTEGER"/>
+<Field name="InternetService_bool" type="INTEGER"/>
+<Field name="contract_2yr" type="INTEGER"/>
+<Field name="contract_MTM" type="INTEGER"/>
+<Field name="contract_1yr" type="INTEGER"/>
+<Field name="SeniorCitizen_Y" type="INTEGER"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="865" Y="184" name="Test - 20%" type="com.alpine.miner.gef.runoperator.sampling.SampleSelectorOperator" uuid="1461882206798">
+<Note/>
+<Parameter key="selectedTable" value="@default_schema.alp@user_id_@flow_id_rsamp_0_1"/>
+<InPutFieldList id="1461882194916">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_rsamp_0_0"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="gender" type="CHARACTER VARYING"/>
+<Field name="Dependents" type="CHARACTER VARYING"/>
+<Field name="tenure" type="INTEGER"/>
+<Field name="InternetService" type="CHARACTER VARYING"/>
+<Field name="PaymentMethod" type="CHARACTER VARYING"/>
+<Field name="MonthlyCharges" type="NUMERIC"/>
+<Field name="TotalCharges" type="NUMERIC"/>
+<Field name="First_Name" type="CHARACTER VARYING"/>
+<Field name="Last_Name" type="CHARACTER VARYING"/>
+<Field name="Cust_Phone" type="CHARACTER VARYING"/>
+<Field name="Email" type="CHARACTER VARYING"/>
+<Field name="Dependents_bool" type="INTEGER"/>
+<Field name="PhoneService_bool" type="INTEGER"/>
+<Field name="MultipleLines_bool" type="INTEGER"/>
+<Field name="OnlineSecurity_bool" type="INTEGER"/>
+<Field name="OnlineBackup_bool" type="INTEGER"/>
+<Field name="DeviceProtection_bool" type="INTEGER"/>
+<Field name="TechSupport_bool" type="INTEGER"/>
+<Field name="StreamingTV_bool" type="INTEGER"/>
+<Field name="StreamingMovies_bool" type="INTEGER"/>
+<Field name="PaperlessBilling_bool" type="INTEGER"/>
+<Field name="Churn_bool" type="INTEGER"/>
+<Field name="InternetService_bool" type="INTEGER"/>
+<Field name="contract_2yr" type="INTEGER"/>
+<Field name="contract_MTM" type="INTEGER"/>
+<Field name="contract_1yr" type="INTEGER"/>
+<Field name="SeniorCitizen_Y" type="INTEGER"/>
+</Fields>
+</InPutFieldList>
+<InPutFieldList id="1461882194916">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_rsamp_0_1"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="gender" type="CHARACTER VARYING"/>
+<Field name="Dependents" type="CHARACTER VARYING"/>
+<Field name="tenure" type="INTEGER"/>
+<Field name="InternetService" type="CHARACTER VARYING"/>
+<Field name="PaymentMethod" type="CHARACTER VARYING"/>
+<Field name="MonthlyCharges" type="NUMERIC"/>
+<Field name="TotalCharges" type="NUMERIC"/>
+<Field name="First_Name" type="CHARACTER VARYING"/>
+<Field name="Last_Name" type="CHARACTER VARYING"/>
+<Field name="Cust_Phone" type="CHARACTER VARYING"/>
+<Field name="Email" type="CHARACTER VARYING"/>
+<Field name="Dependents_bool" type="INTEGER"/>
+<Field name="PhoneService_bool" type="INTEGER"/>
+<Field name="MultipleLines_bool" type="INTEGER"/>
+<Field name="OnlineSecurity_bool" type="INTEGER"/>
+<Field name="OnlineBackup_bool" type="INTEGER"/>
+<Field name="DeviceProtection_bool" type="INTEGER"/>
+<Field name="TechSupport_bool" type="INTEGER"/>
+<Field name="StreamingTV_bool" type="INTEGER"/>
+<Field name="StreamingMovies_bool" type="INTEGER"/>
+<Field name="PaperlessBilling_bool" type="INTEGER"/>
+<Field name="Churn_bool" type="INTEGER"/>
+<Field name="InternetService_bool" type="INTEGER"/>
+<Field name="contract_2yr" type="INTEGER"/>
+<Field name="contract_MTM" type="INTEGER"/>
+<Field name="contract_1yr" type="INTEGER"/>
+<Field name="SeniorCitizen_Y" type="INTEGER"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="1173" Y="51" name="ROC" type="com.alpine.miner.gef.runoperator.model.evaluator.ROCOperator" uuid="1461882255241">
+<Note/>
+<Parameter key="dependentColumn" value="Churn_bool"/>
+<Parameter key="columnValue" value="1"/>
+<Parameter key="useModel" value="true"/>
+<InPutFieldList id="1461882206798">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_rsamp_0_1"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="gender" type="CHARACTER VARYING"/>
+<Field name="Dependents" type="CHARACTER VARYING"/>
+<Field name="tenure" type="INTEGER"/>
+<Field name="InternetService" type="CHARACTER VARYING"/>
+<Field name="PaymentMethod" type="CHARACTER VARYING"/>
+<Field name="MonthlyCharges" type="NUMERIC"/>
+<Field name="TotalCharges" type="NUMERIC"/>
+<Field name="First_Name" type="CHARACTER VARYING"/>
+<Field name="Last_Name" type="CHARACTER VARYING"/>
+<Field name="Cust_Phone" type="CHARACTER VARYING"/>
+<Field name="Email" type="CHARACTER VARYING"/>
+<Field name="Dependents_bool" type="INTEGER"/>
+<Field name="PhoneService_bool" type="INTEGER"/>
+<Field name="MultipleLines_bool" type="INTEGER"/>
+<Field name="OnlineSecurity_bool" type="INTEGER"/>
+<Field name="OnlineBackup_bool" type="INTEGER"/>
+<Field name="DeviceProtection_bool" type="INTEGER"/>
+<Field name="TechSupport_bool" type="INTEGER"/>
+<Field name="StreamingTV_bool" type="INTEGER"/>
+<Field name="StreamingMovies_bool" type="INTEGER"/>
+<Field name="PaperlessBilling_bool" type="INTEGER"/>
+<Field name="Churn_bool" type="INTEGER"/>
+<Field name="InternetService_bool" type="INTEGER"/>
+<Field name="contract_2yr" type="INTEGER"/>
+<Field name="contract_MTM" type="INTEGER"/>
+<Field name="contract_1yr" type="INTEGER"/>
+<Field name="SeniorCitizen_Y" type="INTEGER"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="1174" Y="145" name="Confusion Matrix" type="com.alpine.miner.gef.runoperator.model.evaluator.ConfusionMatrixOperator" uuid="1461882258334">
+<Note/>
+<Parameter key="dependentColumn" value="Churn_bool"/>
+<Parameter key="useModel" value="true"/>
+<InPutFieldList id="1461882206798">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_rsamp_0_1"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="gender" type="CHARACTER VARYING"/>
+<Field name="Dependents" type="CHARACTER VARYING"/>
+<Field name="tenure" type="INTEGER"/>
+<Field name="InternetService" type="CHARACTER VARYING"/>
+<Field name="PaymentMethod" type="CHARACTER VARYING"/>
+<Field name="MonthlyCharges" type="NUMERIC"/>
+<Field name="TotalCharges" type="NUMERIC"/>
+<Field name="First_Name" type="CHARACTER VARYING"/>
+<Field name="Last_Name" type="CHARACTER VARYING"/>
+<Field name="Cust_Phone" type="CHARACTER VARYING"/>
+<Field name="Email" type="CHARACTER VARYING"/>
+<Field name="Dependents_bool" type="INTEGER"/>
+<Field name="PhoneService_bool" type="INTEGER"/>
+<Field name="MultipleLines_bool" type="INTEGER"/>
+<Field name="OnlineSecurity_bool" type="INTEGER"/>
+<Field name="OnlineBackup_bool" type="INTEGER"/>
+<Field name="DeviceProtection_bool" type="INTEGER"/>
+<Field name="TechSupport_bool" type="INTEGER"/>
+<Field name="StreamingTV_bool" type="INTEGER"/>
+<Field name="StreamingMovies_bool" type="INTEGER"/>
+<Field name="PaperlessBilling_bool" type="INTEGER"/>
+<Field name="Churn_bool" type="INTEGER"/>
+<Field name="InternetService_bool" type="INTEGER"/>
+<Field name="contract_2yr" type="INTEGER"/>
+<Field name="contract_MTM" type="INTEGER"/>
+<Field name="contract_1yr" type="INTEGER"/>
+<Field name="SeniorCitizen_Y" type="INTEGER"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="529" Y="153" name="Create Boolean Columns" type="com.alpine.miner.gef.runoperator.field.VariableOperator" uuid="1461882965479">
+<Note/>
+<Parameter key="columnNames" value="customerID,gender,Dependents,tenure,InternetService,PaymentMethod,MonthlyCharges,TotalCharges,First_Name,Last_Name,Cust_Phone,Email"/>
+<Parameter key="outputType" value="TABLE"/>
+<Parameter key="outputSchema" value="public"/>
+<Parameter key="outputTable" value="telco_churn_name_tp"/>
+<StorageParameters appendOnly="false" columnarStorage="false" compression="false" compressionLevel="1" isDistributedRandomly="true"/>
+<Parameter key="dropIfExist" value="Yes"/>
+<QuantileModel useApproximation=""/>
+<DerivedFieldsModel>
+<DerivedFieldItem columnName="bool" dataType="INTEGER" expression="&quot;Dependents&quot; = 'Yes'" multiVarColumn="Dependents" multiVarFormat="2" multiVarReplacementExpression="&quot;$$$_MULTI_VAR_REPLACEMENT_TOKEN_$$$&quot; = 'Yes'" multiVarReturnColumns="Dependents,PhoneService,MultipleLines,OnlineSecurity,OnlineBackup,DeviceProtection,TechSupport,StreamingTV,StreamingMovies,PaperlessBilling,Churn"/>
+<DerivedFieldItem columnName="InternetService_bool" dataType="INTEGER" expression="&quot;InternetService&quot; != 'No'" multiVarColumn="" multiVarFormat="" multiVarReplacementExpression="&quot;InternetService&quot; != 'No'" multiVarReturnColumns=""/>
+<DerivedFieldItem columnName="contract_2yr" dataType="INTEGER" expression="&quot;Contract&quot; = 'Two year'" multiVarColumn="" multiVarFormat="" multiVarReplacementExpression="&quot;Contract&quot; = 'Two year'" multiVarReturnColumns=""/>
+<DerivedFieldItem columnName="contract_MTM" dataType="INTEGER" expression="&quot;Contract&quot; = 'Month-to-month'" multiVarColumn="" multiVarFormat="" multiVarReplacementExpression="&quot;Contract&quot; = 'Month-to-month'" multiVarReturnColumns=""/>
+<DerivedFieldItem columnName="contract_1yr" dataType="INTEGER" expression="&quot;Contract&quot; = 'One year'" multiVarColumn="" multiVarFormat="" multiVarReplacementExpression="&quot;Contract&quot; = 'One year'" multiVarReturnColumns=""/>
+<DerivedFieldItem columnName="SeniorCitizen_Y" dataType="INTEGER" expression="&quot;SeniorCitizen&quot;='1'" multiVarColumn="" multiVarFormat="" multiVarReplacementExpression="&quot;SeniorCitizen&quot;='1'" multiVarReturnColumns=""/>
+</DerivedFieldsModel>
+<InPutFieldList id="1461882152594">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_repl_0"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="gender" type="CHARACTER VARYING"/>
+<Field name="SeniorCitizen" type="INTEGER"/>
+<Field name="Partner" type="CHARACTER VARYING"/>
+<Field name="Dependents" type="CHARACTER VARYING"/>
+<Field name="tenure" type="INTEGER"/>
+<Field name="PhoneService" type="CHARACTER VARYING"/>
+<Field name="MultipleLines" type="CHARACTER VARYING"/>
+<Field name="InternetService" type="CHARACTER VARYING"/>
+<Field name="OnlineSecurity" type="CHARACTER VARYING"/>
+<Field name="OnlineBackup" type="CHARACTER VARYING"/>
+<Field name="DeviceProtection" type="CHARACTER VARYING"/>
+<Field name="TechSupport" type="CHARACTER VARYING"/>
+<Field name="StreamingTV" type="CHARACTER VARYING"/>
+<Field name="StreamingMovies" type="CHARACTER VARYING"/>
+<Field name="Contract" type="CHARACTER VARYING"/>
+<Field name="PaperlessBilling" type="CHARACTER VARYING"/>
+<Field name="PaymentMethod" type="CHARACTER VARYING"/>
+<Field name="MonthlyCharges" type="NUMERIC"/>
+<Field name="TotalCharges" type="NUMERIC"/>
+<Field name="Churn" type="CHARACTER VARYING"/>
+<Field name="First_Name" type="CHARACTER VARYING"/>
+<Field name="Last_Name" type="CHARACTER VARYING"/>
+<Field name="Cust_Phone" type="CHARACTER VARYING"/>
+<Field name="Email" type="CHARACTER VARYING"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="467" Y="45" name="Correlation" type="com.alpine.miner.gef.runoperator.field.CorrelationAnalysisOperator" uuid="1461937635567">
+<Note/>
+<Parameter key="columnNames" value="tenure,MonthlyCharges,TotalCharges,Dependents_bool,PhoneService_bool,MultipleLines_bool,OnlineSecurity_bool,OnlineBackup_bool,DeviceProtection_bool,TechSupport_bool,StreamingTV_bool,StreamingMovies_bool,PaperlessBilling_bool,Churn_bool,InternetService_bool"/>
+<InPutFieldList id="1461882965479">
+<Parameter key="schema" value="public"/>
+<Parameter key="table" value="telco_churn_name_tp"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="gender" type="CHARACTER VARYING"/>
+<Field name="Dependents" type="CHARACTER VARYING"/>
+<Field name="tenure" type="INTEGER"/>
+<Field name="InternetService" type="CHARACTER VARYING"/>
+<Field name="PaymentMethod" type="CHARACTER VARYING"/>
+<Field name="MonthlyCharges" type="NUMERIC"/>
+<Field name="TotalCharges" type="NUMERIC"/>
+<Field name="First_Name" type="CHARACTER VARYING"/>
+<Field name="Last_Name" type="CHARACTER VARYING"/>
+<Field name="Cust_Phone" type="CHARACTER VARYING"/>
+<Field name="Email" type="CHARACTER VARYING"/>
+<Field name="Dependents_bool" type="INTEGER"/>
+<Field name="PhoneService_bool" type="INTEGER"/>
+<Field name="MultipleLines_bool" type="INTEGER"/>
+<Field name="OnlineSecurity_bool" type="INTEGER"/>
+<Field name="OnlineBackup_bool" type="INTEGER"/>
+<Field name="DeviceProtection_bool" type="INTEGER"/>
+<Field name="TechSupport_bool" type="INTEGER"/>
+<Field name="StreamingTV_bool" type="INTEGER"/>
+<Field name="StreamingMovies_bool" type="INTEGER"/>
+<Field name="PaperlessBilling_bool" type="INTEGER"/>
+<Field name="Churn_bool" type="INTEGER"/>
+<Field name="InternetService_bool" type="INTEGER"/>
+<Field name="contract_2yr" type="INTEGER"/>
+<Field name="contract_MTM" type="INTEGER"/>
+<Field name="contract_1yr" type="INTEGER"/>
+<Field name="SeniorCitizen_Y" type="INTEGER"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="588" Y="45" name="Variable Selection" type="com.alpine.miner.gef.runoperator.field.variableselection.VariableSelectionAnalysisOperator" uuid="1461938795901">
+<Note/>
+<Parameter key="dependentColumn" value="Churn_bool"/>
+<Parameter key="scoreType" value="Info gain"/>
+<Parameter key="columnNames" value="gender,Dependents,tenure,InternetService,PaymentMethod,MonthlyCharges,Dependents_bool,PhoneService_bool,MultipleLines_bool,OnlineSecurity_bool,OnlineBackup_bool,DeviceProtection_bool,TechSupport_bool,StreamingTV_bool,StreamingMovies_bool,PaperlessBilling_bool,InternetService_bool,contract_2yr,contract_MTM,contract_1yr,SeniorCitizen_Y"/>
+<Parameter key="scoreThreshold" value="0.05"/>
+<Parameter key="outputSchema" value="@default_schema"/>
+<Parameter key="outputTable" value="alp@user_id_@flow_id_varsel_0_0"/>
+<Parameter key="dropIfExist" value="Yes"/>
+<InPutFieldList id="1461882965479">
+<Parameter key="schema" value="public"/>
+<Parameter key="table" value="telco_churn_name_tp"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="gender" type="CHARACTER VARYING"/>
+<Field name="Dependents" type="CHARACTER VARYING"/>
+<Field name="tenure" type="INTEGER"/>
+<Field name="InternetService" type="CHARACTER VARYING"/>
+<Field name="PaymentMethod" type="CHARACTER VARYING"/>
+<Field name="MonthlyCharges" type="NUMERIC"/>
+<Field name="TotalCharges" type="NUMERIC"/>
+<Field name="First_Name" type="CHARACTER VARYING"/>
+<Field name="Last_Name" type="CHARACTER VARYING"/>
+<Field name="Cust_Phone" type="CHARACTER VARYING"/>
+<Field name="Email" type="CHARACTER VARYING"/>
+<Field name="Dependents_bool" type="INTEGER"/>
+<Field name="PhoneService_bool" type="INTEGER"/>
+<Field name="MultipleLines_bool" type="INTEGER"/>
+<Field name="OnlineSecurity_bool" type="INTEGER"/>
+<Field name="OnlineBackup_bool" type="INTEGER"/>
+<Field name="DeviceProtection_bool" type="INTEGER"/>
+<Field name="TechSupport_bool" type="INTEGER"/>
+<Field name="StreamingTV_bool" type="INTEGER"/>
+<Field name="StreamingMovies_bool" type="INTEGER"/>
+<Field name="PaperlessBilling_bool" type="INTEGER"/>
+<Field name="Churn_bool" type="INTEGER"/>
+<Field name="InternetService_bool" type="INTEGER"/>
+<Field name="contract_2yr" type="INTEGER"/>
+<Field name="contract_MTM" type="INTEGER"/>
+<Field name="contract_1yr" type="INTEGER"/>
+<Field name="SeniorCitizen_Y" type="INTEGER"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="985" Y="56" name="Logistic Regression" type="com.alpine.miner.gef.runoperator.logisticregression.LogisticRegressionOperator" uuid="1462132477854">
+<Note/>
+<Parameter key="dependentColumn" value="Churn_bool"/>
+<Parameter key="goodValue" value="1"/>
+<Parameter key="max_generations" value="30"/>
+<Parameter key="epsilon" value="0.00000001"/>
+<Parameter key="columnNames" value="gender,Dependents,tenure,InternetService,PaymentMethod,MonthlyCharges,TotalCharges,Dependents_bool,PhoneService_bool,MultipleLines_bool,OnlineSecurity_bool,OnlineBackup_bool,DeviceProtection_bool,TechSupport_bool,StreamingTV_bool,StreamingMovies_bool,PaperlessBilling_bool,InternetService_bool,contract_2yr,contract_MTM,contract_1yr,SeniorCitizen_Y"/>
+<Parameter key="isStepWise" value="true"/>
+<Parameter key="stepWiseType" value="FORWARD"/>
+<Parameter key="criterionType" value="AIC"/>
+<Parameter key="checkValue" value="0.05"/>
+<Parameter key="splitModelGroupByColumn" value=""/>
+<InPutFieldList id="1461882204683">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_rsamp_0_0"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="gender" type="CHARACTER VARYING"/>
+<Field name="Dependents" type="CHARACTER VARYING"/>
+<Field name="tenure" type="INTEGER"/>
+<Field name="InternetService" type="CHARACTER VARYING"/>
+<Field name="PaymentMethod" type="CHARACTER VARYING"/>
+<Field name="MonthlyCharges" type="NUMERIC"/>
+<Field name="TotalCharges" type="NUMERIC"/>
+<Field name="First_Name" type="CHARACTER VARYING"/>
+<Field name="Last_Name" type="CHARACTER VARYING"/>
+<Field name="Cust_Phone" type="CHARACTER VARYING"/>
+<Field name="Email" type="CHARACTER VARYING"/>
+<Field name="Dependents_bool" type="INTEGER"/>
+<Field name="PhoneService_bool" type="INTEGER"/>
+<Field name="MultipleLines_bool" type="INTEGER"/>
+<Field name="OnlineSecurity_bool" type="INTEGER"/>
+<Field name="OnlineBackup_bool" type="INTEGER"/>
+<Field name="DeviceProtection_bool" type="INTEGER"/>
+<Field name="TechSupport_bool" type="INTEGER"/>
+<Field name="StreamingTV_bool" type="INTEGER"/>
+<Field name="StreamingMovies_bool" type="INTEGER"/>
+<Field name="PaperlessBilling_bool" type="INTEGER"/>
+<Field name="Churn_bool" type="INTEGER"/>
+<Field name="InternetService_bool" type="INTEGER"/>
+<Field name="contract_2yr" type="INTEGER"/>
+<Field name="contract_MTM" type="INTEGER"/>
+<Field name="contract_1yr" type="INTEGER"/>
+<Field name="SeniorCitizen_Y" type="INTEGER"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="1175" Y="246" name="Goodness of Fit" type="com.alpine.miner.gef.runoperator.model.evaluator.GoodnessOfFitOperator" uuid="1462142676706">
+<Note/>
+<Parameter key="dependentColumn" value="Churn_bool"/>
+<Parameter key="useModel" value="true"/>
+<InPutFieldList id="1461882206798">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_rsamp_0_1"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="gender" type="CHARACTER VARYING"/>
+<Field name="Dependents" type="CHARACTER VARYING"/>
+<Field name="tenure" type="INTEGER"/>
+<Field name="InternetService" type="CHARACTER VARYING"/>
+<Field name="PaymentMethod" type="CHARACTER VARYING"/>
+<Field name="MonthlyCharges" type="NUMERIC"/>
+<Field name="TotalCharges" type="NUMERIC"/>
+<Field name="First_Name" type="CHARACTER VARYING"/>
+<Field name="Last_Name" type="CHARACTER VARYING"/>
+<Field name="Cust_Phone" type="CHARACTER VARYING"/>
+<Field name="Email" type="CHARACTER VARYING"/>
+<Field name="Dependents_bool" type="INTEGER"/>
+<Field name="PhoneService_bool" type="INTEGER"/>
+<Field name="MultipleLines_bool" type="INTEGER"/>
+<Field name="OnlineSecurity_bool" type="INTEGER"/>
+<Field name="OnlineBackup_bool" type="INTEGER"/>
+<Field name="DeviceProtection_bool" type="INTEGER"/>
+<Field name="TechSupport_bool" type="INTEGER"/>
+<Field name="StreamingTV_bool" type="INTEGER"/>
+<Field name="StreamingMovies_bool" type="INTEGER"/>
+<Field name="PaperlessBilling_bool" type="INTEGER"/>
+<Field name="Churn_bool" type="INTEGER"/>
+<Field name="InternetService_bool" type="INTEGER"/>
+<Field name="contract_2yr" type="INTEGER"/>
+<Field name="contract_MTM" type="INTEGER"/>
+<Field name="contract_1yr" type="INTEGER"/>
+<Field name="SeniorCitizen_Y" type="INTEGER"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="528" Y="264" name="Compute sub-scores" type="com.alpine.miner.gef.runoperator.field.VariableOperator" uuid="1462147075962">
+<Note/>
+<Parameter key="columnNames" value="customerID,Churn_bool"/>
+<Parameter key="outputType" value="TABLE"/>
+<Parameter key="outputSchema" value="@default_schema"/>
+<Parameter key="outputTable" value="alp@user_id_@flow_id_var_1"/>
+<StorageParameters appendOnly="false" columnarStorage="false" compression="false" compressionLevel="1" isDistributedRandomly="true"/>
+<Parameter key="dropIfExist" value="Yes"/>
+<QuantileModel useApproximation=""/>
+<DerivedFieldsModel>
+<DerivedFieldItem columnName="score_internet_svc" dataType="BIGINT" expression="CASE WHEN &quot;InternetService&quot; LIKE 'Fiber optic' THEN 80 &#10;WHEN &quot;InternetService&quot; LIKE 'No' THEN -80 ELSE 0 END" multiVarColumn="" multiVarFormat="" multiVarReplacementExpression="CASE WHEN &quot;InternetService&quot; LIKE 'Fiber optic' THEN 80 &#10;WHEN &quot;InternetService&quot; LIKE 'No' THEN -80 ELSE 0 END" multiVarReturnColumns=""/>
+<DerivedFieldItem columnName="score_pmt_method" dataType="BIGINT" expression="CASE &#10;WHEN &quot;PaymentMethod&quot; LIKE 'Electronic check' THEN 35 &#10;ELSE 0 END" multiVarColumn="" multiVarFormat="" multiVarReplacementExpression="CASE &#10;WHEN &quot;PaymentMethod&quot; LIKE 'Electronic check' THEN 35 &#10;ELSE 0 END" multiVarReturnColumns=""/>
+<DerivedFieldItem columnName="score_contract" dataType="BIGINT" expression="&quot;contract_MTM&quot;*60 - &quot;contract_2yr&quot;*60" multiVarColumn="" multiVarFormat="" multiVarReplacementExpression="&quot;contract_MTM&quot;*60 - &quot;contract_2yr&quot;*60" multiVarReturnColumns=""/>
+<DerivedFieldItem columnName="score_sr_citizen" dataType="BIGINT" expression="&quot;SeniorCitizen_Y&quot; *22" multiVarColumn="" multiVarFormat="" multiVarReplacementExpression="&quot;SeniorCitizen_Y&quot; *22" multiVarReturnColumns=""/>
+<DerivedFieldItem columnName="score_tenure" dataType="BIGINT" expression="-6 * &quot;tenure&quot;" multiVarColumn="" multiVarFormat="" multiVarReplacementExpression="-6 * &quot;tenure&quot;" multiVarReturnColumns=""/>
+<DerivedFieldItem columnName="score_addon_svcs" dataType="BIGINT" expression="&quot;PaperlessBilling_bool&quot; * 45 + &quot;StreamingMovies_bool&quot; * 25 -  &#10;&quot;OnlineSecurity_bool&quot; * 50 -&quot;OnlineBackup_bool&quot; * 20 - &quot;TechSupport_bool&quot; * 40" multiVarColumn="" multiVarFormat="" multiVarReplacementExpression="&quot;PaperlessBilling_bool&quot; * 45 + &quot;StreamingMovies_bool&quot; * 25 -  &#10;&quot;OnlineSecurity_bool&quot; * 50 -&quot;OnlineBackup_bool&quot; * 20 - &quot;TechSupport_bool&quot; * 40" multiVarReturnColumns=""/>
+<DerivedFieldItem columnName="score_phone_svc" dataType="BIGINT" expression="-65 * &quot;PhoneService_bool&quot; + 25 * &quot;MultipleLines_bool&quot; " multiVarColumn="" multiVarFormat="" multiVarReplacementExpression="-65 * &quot;PhoneService_bool&quot; + 25 * &quot;MultipleLines_bool&quot; " multiVarReturnColumns=""/>
+</DerivedFieldsModel>
+<InPutFieldList id="1461882965479">
+<Parameter key="schema" value="public"/>
+<Parameter key="table" value="telco_churn_name_tp"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="gender" type="CHARACTER VARYING"/>
+<Field name="Dependents" type="CHARACTER VARYING"/>
+<Field name="tenure" type="INTEGER"/>
+<Field name="InternetService" type="CHARACTER VARYING"/>
+<Field name="PaymentMethod" type="CHARACTER VARYING"/>
+<Field name="MonthlyCharges" type="NUMERIC"/>
+<Field name="TotalCharges" type="NUMERIC"/>
+<Field name="First_Name" type="CHARACTER VARYING"/>
+<Field name="Last_Name" type="CHARACTER VARYING"/>
+<Field name="Cust_Phone" type="CHARACTER VARYING"/>
+<Field name="Email" type="CHARACTER VARYING"/>
+<Field name="Dependents_bool" type="INTEGER"/>
+<Field name="PhoneService_bool" type="INTEGER"/>
+<Field name="MultipleLines_bool" type="INTEGER"/>
+<Field name="OnlineSecurity_bool" type="INTEGER"/>
+<Field name="OnlineBackup_bool" type="INTEGER"/>
+<Field name="DeviceProtection_bool" type="INTEGER"/>
+<Field name="TechSupport_bool" type="INTEGER"/>
+<Field name="StreamingTV_bool" type="INTEGER"/>
+<Field name="StreamingMovies_bool" type="INTEGER"/>
+<Field name="PaperlessBilling_bool" type="INTEGER"/>
+<Field name="Churn_bool" type="INTEGER"/>
+<Field name="InternetService_bool" type="INTEGER"/>
+<Field name="contract_2yr" type="INTEGER"/>
+<Field name="contract_MTM" type="INTEGER"/>
+<Field name="contract_1yr" type="INTEGER"/>
+<Field name="SeniorCitizen_Y" type="INTEGER"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="527" Y="370" name="Compute Basic Churn Risk Score" type="com.alpine.miner.gef.runoperator.field.VariableOperator" uuid="1462151626698">
+<Note/>
+<Parameter key="columnNames" value="customerID,Churn_bool"/>
+<Parameter key="outputType" value="TABLE"/>
+<Parameter key="outputSchema" value="@default_schema"/>
+<Parameter key="outputTable" value="alp@user_id_@flow_id_var_2"/>
+<StorageParameters appendOnly="false" columnarStorage="false" compression="false" compressionLevel="1" isDistributedRandomly="true"/>
+<Parameter key="dropIfExist" value="Yes"/>
+<QuantileModel useApproximation=""/>
+<DerivedFieldsModel>
+<DerivedFieldItem columnName="churn_risk_score" dataType="BIGINT" expression="&quot;score_internet_svc&quot; + &quot;score_pmt_method&quot; + &quot;score_contract&quot; + &quot;score_sr_citizen&quot; + &quot;score_tenure&quot; +  &quot;score_addon_svcs&quot; + &quot;score_phone_svc&quot; " multiVarColumn="" multiVarFormat="" multiVarReplacementExpression="&quot;score_internet_svc&quot; + &quot;score_pmt_method&quot; + &quot;score_contract&quot; + &quot;score_sr_citizen&quot; + &quot;score_tenure&quot; +  &quot;score_addon_svcs&quot; + &quot;score_phone_svc&quot; " multiVarReturnColumns=""/>
+</DerivedFieldsModel>
+<InPutFieldList id="1462147075962">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_var_1"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="Churn_bool" type="INTEGER"/>
+<Field name="score_internet_svc" type="BIGINT"/>
+<Field name="score_pmt_method" type="BIGINT"/>
+<Field name="score_contract" type="BIGINT"/>
+<Field name="score_sr_citizen" type="BIGINT"/>
+<Field name="score_tenure" type="BIGINT"/>
+<Field name="score_addon_svcs" type="BIGINT"/>
+<Field name="score_phone_svc" type="BIGINT"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="754" Y="548" name="Random Sampling" type="com.alpine.miner.gef.runoperator.sampling.RandomSamplingOperator" uuid="1462152761595">
+<Note/>
+<Parameter key="sampleCount" value="2"/>
+<Parameter key="sampleSizeType" value="Percentage"/>
+<Parameter key="randomSeed" value=""/>
+<Parameter key="consistent" value="false"/>
+<Parameter key="replacement" value="false"/>
+<Parameter key="disjoint" value="false"/>
+<Parameter key="outputSchema" value="@default_schema"/>
+<Parameter key="outputTable" value="alp@user_id_@flow_id_rsamp_1"/>
+<StorageParameters appendOnly="false" columnarStorage="false" compression="false" compressionLevel="1" isDistributedRandomly="true"/>
+<Parameter key="dropIfExist" value="Yes"/>
+<SampleSizeModel>
+<sampleIDs sampleID="1"/>
+<sampleIDs sampleID="2"/>
+<sampleSizes sampleSize="80"/>
+<sampleSizes sampleSize="20"/>
+</SampleSizeModel>
+<InPutFieldList id="1462157351798">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_var_4"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="Churn" type="BIGINT"/>
+<Field name="churn_risk_score" type="BIGINT"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="861" Y="468" name="Train" type="com.alpine.miner.gef.runoperator.sampling.SampleSelectorOperator" uuid="1462152785204">
+<Note/>
+<Parameter key="selectedTable" value="@default_schema.alp@user_id_@flow_id_rsamp_1_0"/>
+<InPutFieldList id="1462152761595">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_rsamp_1_0"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="Churn" type="BIGINT"/>
+<Field name="churn_risk_score" type="BIGINT"/>
+</Fields>
+</InPutFieldList>
+<InPutFieldList id="1462152761595">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_rsamp_1_1"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="Churn" type="BIGINT"/>
+<Field name="churn_risk_score" type="BIGINT"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="1008" Y="403" name="Scoring Engine" type="com.alpine.miner.gef.runoperator.logisticregression.LogisticRegressionOperator" uuid="1462154854369">
+<Note/>
+<Parameter key="dependentColumn" value="Churn"/>
+<Parameter key="goodValue" value="1"/>
+<Parameter key="max_generations" value="10"/>
+<Parameter key="epsilon" value="0.00000001"/>
+<Parameter key="columnNames" value="churn_risk_score"/>
+<Parameter key="isStepWise" value="false"/>
+<Parameter key="stepWiseType" value="FORWARD"/>
+<Parameter key="criterionType" value=""/>
+<Parameter key="checkValue" value="0.05"/>
+<Parameter key="splitModelGroupByColumn" value=""/>
+<InPutFieldList id="1462152785204">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_rsamp_1_0"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="Churn" type="BIGINT"/>
+<Field name="churn_risk_score" type="BIGINT"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="861" Y="551" name="Test" type="com.alpine.miner.gef.runoperator.sampling.SampleSelectorOperator" uuid="1462154932099">
+<Note/>
+<Parameter key="selectedTable" value="@default_schema.alp@user_id_@flow_id_rsamp_1_1"/>
+<InPutFieldList id="1462152761595">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_rsamp_1_0"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="Churn" type="BIGINT"/>
+<Field name="churn_risk_score" type="BIGINT"/>
+</Fields>
+</InPutFieldList>
+<InPutFieldList id="1462152761595">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_rsamp_1_1"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="Churn" type="BIGINT"/>
+<Field name="churn_risk_score" type="BIGINT"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="1177" Y="470" name="Confusion Matrix on Risk Score" type="com.alpine.miner.gef.runoperator.model.evaluator.ConfusionMatrixOperator" uuid="1462154999689">
+<Note/>
+<Parameter key="dependentColumn" value="Churn"/>
+<Parameter key="useModel" value="true"/>
+<InPutFieldList id="1462154932099">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_rsamp_1_1"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="Churn" type="BIGINT"/>
+<Field name="churn_risk_score" type="BIGINT"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="528" Y="475" name="Compute normalized score" type="com.alpine.miner.gef.runoperator.field.VariableOperator" uuid="1462156860118">
+<Note/>
+<Parameter key="columnNames" value="customerID"/>
+<Parameter key="outputType" value="TABLE"/>
+<Parameter key="outputSchema" value="@default_schema"/>
+<Parameter key="outputTable" value="alp@user_id_@flow_id_var_3"/>
+<StorageParameters appendOnly="false" columnarStorage="false" compression="false" compressionLevel="1" isDistributedRandomly="true"/>
+<Parameter key="dropIfExist" value="Yes"/>
+<QuantileModel useApproximation="">
+<QuantileItem columnName="churn_risk_score" isCreateNewColumn="true" newColumnName="churn_risk_score_bin" numberOfBin="100" quantileType="1"/>
+</QuantileModel>
+<DerivedFieldsModel>
+<DerivedFieldItem columnName="Churn" dataType="BIGINT" expression="&quot;Churn_bool&quot; " multiVarColumn="" multiVarFormat="" multiVarReplacementExpression="&quot;Churn_bool&quot; " multiVarReturnColumns=""/>
+</DerivedFieldsModel>
+<InPutFieldList id="1462151626698">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_var_2"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="Churn_bool" type="INTEGER"/>
+<Field name="churn_risk_score" type="BIGINT"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="657" Y="474" name="Scale risk score" type="com.alpine.miner.gef.runoperator.field.VariableOperator" uuid="1462157351798">
+<Note/>
+<Parameter key="columnNames" value="customerID,Churn"/>
+<Parameter key="outputType" value="TABLE"/>
+<Parameter key="outputSchema" value="@default_schema"/>
+<Parameter key="outputTable" value="alp@user_id_@flow_id_var_4"/>
+<StorageParameters appendOnly="false" columnarStorage="false" compression="false" compressionLevel="1" isDistributedRandomly="true"/>
+<Parameter key="dropIfExist" value="Yes"/>
+<QuantileModel useApproximation=""/>
+<DerivedFieldsModel>
+<DerivedFieldItem columnName="churn_risk_score" dataType="BIGINT" expression="&quot;churn_risk_score_bin&quot; * 10" multiVarColumn="" multiVarFormat="" multiVarReplacementExpression="&quot;churn_risk_score_bin&quot; * 10" multiVarReturnColumns=""/>
+</DerivedFieldsModel>
+<InPutFieldList id="1462156860118">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_var_3"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="Churn" type="BIGINT"/>
+<Field name="churn_risk_score_bin" type="INTEGER"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="1132" Y="641" name="Predictor" type="com.alpine.miner.gef.runoperator.model.DatabasePredictorOperator" uuid="1462214049978">
+<Note/>
+<Parameter key="outputSchema" value="@default_schema"/>
+<Parameter key="outputTable" value="alp@user_id_@flow_id_pred_0"/>
+<StorageParameters appendOnly="false" columnarStorage="false" compression="false" compressionLevel="1" isDistributedRandomly="true"/>
+<Parameter key="dropIfExist" value="Yes"/>
+<InPutFieldList id="1462157351798">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_var_4"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="Churn" type="BIGINT"/>
+<Field name="churn_risk_score" type="BIGINT"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="263" Y="263" name="Scatter Plot Matrix" type="com.alpine.miner.gef.runoperator.field.ScatterMatrixOperator" uuid="1462215346452">
+<Note/>
+<Parameter key="columnNames" value="tenure,MonthlyCharges,TotalCharges"/>
+<InPutFieldList id="1461882152594">
+<Parameter key="schema" value="@default_schema"/>
+<Parameter key="table" value="alp@user_id_@flow_id_repl_0"/>
+<Parameter key="tableType" value="TABLE"/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Fields>
+<Field name="customerID" type="CHARACTER VARYING"/>
+<Field name="gender" type="CHARACTER VARYING"/>
+<Field name="SeniorCitizen" type="INTEGER"/>
+<Field name="Partner" type="CHARACTER VARYING"/>
+<Field name="Dependents" type="CHARACTER VARYING"/>
+<Field name="tenure" type="INTEGER"/>
+<Field name="PhoneService" type="CHARACTER VARYING"/>
+<Field name="MultipleLines" type="CHARACTER VARYING"/>
+<Field name="InternetService" type="CHARACTER VARYING"/>
+<Field name="OnlineSecurity" type="CHARACTER VARYING"/>
+<Field name="OnlineBackup" type="CHARACTER VARYING"/>
+<Field name="DeviceProtection" type="CHARACTER VARYING"/>
+<Field name="TechSupport" type="CHARACTER VARYING"/>
+<Field name="StreamingTV" type="CHARACTER VARYING"/>
+<Field name="StreamingMovies" type="CHARACTER VARYING"/>
+<Field name="Contract" type="CHARACTER VARYING"/>
+<Field name="PaperlessBilling" type="CHARACTER VARYING"/>
+<Field name="PaymentMethod" type="CHARACTER VARYING"/>
+<Field name="MonthlyCharges" type="NUMERIC"/>
+<Field name="TotalCharges" type="NUMERIC"/>
+<Field name="Churn" type="CHARACTER VARYING"/>
+<Field name="First_Name" type="CHARACTER VARYING"/>
+<Field name="Last_Name" type="CHARACTER VARYING"/>
+<Field name="Cust_Phone" type="CHARACTER VARYING"/>
+<Field name="Email" type="CHARACTER VARYING"/>
+</Fields>
+</InPutFieldList>
+</Operator>
+<Operator X="95" Y="154" name="telco_cust_churn_2" type="com.alpine.miner.gef.runoperator.datasource.DbTableOperator" uuid="1462372149878">
+<Note/>
+<Parameter key="dbConnectionName" value="miner_demo"/>
+<Parameter key="schemaName" value="demo"/>
+<Parameter key="tableName" value="telco_cust_churn_2"/>
+</Operator>
+<Link source="80%/20%" target="Train - 80%"/>
+<Link source="80%/20%" target="Test - 20%"/>
+<Link source="Test - 20%" target="ROC"/>
+<Link source="Test - 20%" target="Confusion Matrix"/>
+<Link source="Create Boolean Columns" target="Correlation"/>
+<Link source="Create Boolean Columns" target="80%/20%"/>
+<Link source="Create Boolean Columns" target="Variable Selection"/>
+<Link source="Train - 80%" target="Logistic Regression"/>
+<Link source="Logistic Regression" target="Confusion Matrix"/>
+<Link source="Logistic Regression" target="ROC"/>
+<Link source="Logistic Regression" target="Goodness of Fit"/>
+<Link source="Test - 20%" target="Goodness of Fit"/>
+<Link source="Replace Null Values in TotalCharges" target="Create Boolean Columns"/>
+<Link source="Create Boolean Columns" target="Compute sub-scores"/>
+<Link source="Compute sub-scores" target="Compute Basic Churn Risk Score"/>
+<Link source="Random Sampling" target="Train"/>
+<Link source="Train" target="Scoring Engine"/>
+<Link source="Random Sampling" target="Test"/>
+<Link source="Scoring Engine" target="Confusion Matrix on Risk Score"/>
+<Link source="Test" target="Confusion Matrix on Risk Score"/>
+<Link source="Compute Basic Churn Risk Score" target="Compute normalized score"/>
+<Link source="Compute normalized score" target="Scale risk score"/>
+<Link source="Scale risk score" target="Random Sampling"/>
+<Link source="Scale risk score" target="Predictor"/>
+<Link source="Scoring Engine" target="Predictor"/>
+<Link source="Replace Null Values in TotalCharges" target="Scatter Plot Matrix"/>
+<Link source="telco_cust_churn_2" target="Replace Null Values in TotalCharges"/>
+<VariableModel>
+<Variable>
+<Name>@flow_name</Name>
+<Value>@flow_name</Value>
+</Variable>
+<Variable>
+<Name>@user_name</Name>
+<Value>@user_name</Value>
+</Variable>
+<Variable>
+<Name>@user_id</Name>
+<Value>@user_id</Value>
+</Variable>
+<Variable>
+<Name>@flow_id</Name>
+<Value>@flow_id</Value>
+</Variable>
+<Variable>
+<Name>@default_schema</Name>
+<Value>public</Value>
+</Variable>
+<Variable>
+<Name>@default_prefix</Name>
+<Value>ch95</Value>
+</Variable>
+<Variable>
+<Name>@default_tempdir</Name>
+<Value>/tmp</Value>
+</Variable>
+<Variable>
+<Name>@default_delimiter</Name>
+<Value>,</Value>
+</Variable>
+<Variable>
+<Name>@pig_number_of_reducers</Name>
+<Value>1</Value>
+</Variable>
+</VariableModel>
+</Process>
